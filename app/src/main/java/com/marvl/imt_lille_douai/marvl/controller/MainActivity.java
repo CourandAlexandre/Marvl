@@ -1,17 +1,27 @@
 package com.marvl.imt_lille_douai.marvl.controller;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.ContentFrameLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.marvl.imt_lille_douai.marvl.R;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -67,6 +77,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    protected void processPhotoLibrary(Intent intent){
+        Uri photoUri = intent.getData();
+        String pathToPhoto = getRealPath(getApplicationContext(),photoUri);
+
+        File pathToFile = new File(pathToPhoto);
+        Bitmap photoBitmap = decodeFile(pathToFile);
+        ImageView.setImageView(photoBitmap);
+
+        Log.i(TAG,pathToPhoto);
+    }
+
     protected void startCaptureActivity(){
         Intent intent = new Intent();
 
@@ -92,5 +113,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intent.setAction(Intent.ACTION_GET_CONTENT);
 
         startActivityForResult(intent,analyseActivityResult);
+    }
+
+    protected String getRealPath(Context context, Uri uri) {
+        Cursor cursor;
+
+
+            String[] projection = {MediaStore.Images.Media.DATA};
+            cursor = context.getContentResolver().query(
+                uri,
+                projection,
+                null,
+                null,
+                null
+            );
+
+            int dataIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+
+            return cursor.getString(dataIndex);
+    }
+
+    protected Bitmap decodeFile(File file){
+        Bitmap bitmap = null;
+
+        try{
+            FileInputStream inputStream = new FileInputStream(file);
+
+            BitmapFactory.Options options = new BitmapFactory.Options;
+            bitmap = BitmapFactory.decodeStream(inputStream, null, options);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return bitmap;
     }
 }
