@@ -11,8 +11,6 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ContentFrameLayout;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -73,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(requestCode == libraryActivityResult && resultCode == Activity.RESULT_OK){
             Uri photoUri = intent.getData();
             photoView.setImageURI(photoUri);
-            Log.i(TAG,photoUri.toString());
+            //Log.i(TAG,photoUri.toString());
         }
     }
 
@@ -83,9 +81,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         File pathToFile = new File(pathToPhoto);
         Bitmap photoBitmap = decodeFile(pathToFile);
-        ImageView.setImageView(photoBitmap);
+        photoView.setImageBitmap(photoBitmap);
 
-        Log.i(TAG,pathToPhoto);
+        //Log.i(TAG,pathToPhoto);
     }
 
     protected void startCaptureActivity(){
@@ -140,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         try{
             FileInputStream inputStream = new FileInputStream(file);
 
-            BitmapFactory.Options options = new BitmapFactory.Options;
+            BitmapFactory.Options options = new BitmapFactory.Options();
             bitmap = BitmapFactory.decodeStream(inputStream, null, options);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
