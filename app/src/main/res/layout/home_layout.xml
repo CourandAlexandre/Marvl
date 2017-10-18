@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout android:layout_height="495dp"
+        android:layout_width="368dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/linearLayout">
+
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="190dp"
+                android:id="@+id/captureButton"
+                android:text="Capture"
+                android:layout_marginLeft="2dp"
+                android:layout_gravity="left"/>
+
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/libraryButton"
+                android:text="Photos Library"
+                android:layout_gravity="right"
+                android:elevation="0dp"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_height="400dp"
+            android:layout_width="368dp"
+            android:id="@+id/imageAnalysed"
+            app:srcCompat="@android:drawable/btn_dialog"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            app:layout_constraintBottom_toTopOf="@+id/analyseButton"
+            android:layout_weight="1"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center" />
+
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="368dp"
+            android:id="@+id/analyseButton"
+            android:text="Analysis"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+</LinearLayout>
