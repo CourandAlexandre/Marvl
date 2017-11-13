@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.marvl.imt_lille_douai.marvl">
 
+    <uses-feature android:name="android.hardware.camera2"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18"
+        />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,23 +17,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <uses-feature android:name="android.hardware.camera2"
-                    android:required="true" />
-
-        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-                    android:maxSdkVersion="18"
-            />
-
-        <!--<provider
+        <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.marvl.imt_lille_douai.marvl.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
+
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths">
+                android:resource="@xml/file_path_providers">
             </meta-data>
-        </provider>-->
+        </provider>
 
         <activity android:name=".controller.MainActivity">
             <intent-filter>

@@ -1,5 +1,6 @@
 package com.marvl.imt_lille_douai.marvl.controller;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.marvl.imt_lille_douai.marvl.BuildConfig;
 import com.marvl.imt_lille_douai.marvl.R;
 
 import java.io.File;
@@ -48,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String photoTakenPath;
     Uri photoTakenUri;
 
+    private static final String SHARED_PROVIDER_AUTHORITY = BuildConfig.APPLICATION_ID + ".fileprovider";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +69,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         analyseButton.setOnClickListener(this);
 
         photoView = (ImageView) findViewById(R.id.imageAnalysed);
+
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            Log.i(TAG,"Permission wasn't allowed");
+            captureButton.setEnabled(false);
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE} , 0);
+        }
     }
 
     @Override
@@ -70,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(requestCode == 0){
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED ){
                 captureButton.setEnabled(true); // If user doesn't have the permission the button is hidden
+                Log.i(TAG,"Permission wasn't allowed but now is granted");
             }
         }
     }
@@ -136,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             // Continue only if the File was successfully created
             if(photoFile != null){
-                Uri photoUri = FileProvider.getUriForFile(this,"com.marvl.imt_lille_douai.marvl.fileprovider",photoFile);
+                Uri photoUri = FileProvider.getUriForFile(this,SHARED_PROVIDER_AUTHORITY,photoFile);
 
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
 
