@@ -149,9 +149,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             // Continue only if the File was successfully created
             if(photoFile != null){
-                Uri photoUri = FileProvider.getUriForFile(this,SHARED_PROVIDER_AUTHORITY,photoFile);
+                //Uri photoUri = FileProvider.getUriForFile(this,SHARED_PROVIDER_AUTHORITY,photoFile);
+
+                Uri photoUri = FileProvider.getUriForFile(this.getApplicationContext(), "com.marvl.imt_lille_douai.marvl.fileprovider", photoFile);
+
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+
+
 
                 startActivityForResult(intent, captureActivityResult);
             }

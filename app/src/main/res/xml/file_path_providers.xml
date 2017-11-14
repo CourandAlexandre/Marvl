@@ -4,4 +4,7 @@
         name="shared"
         path="shared/"
         />
+
+    <external-files-path name="my_images" path="Pictures"/>
+    <external-files-path name="my_movies" path="Movies"/>
 </paths>
