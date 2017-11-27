@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     final String TAG = MainActivity.class.getName();
 
+    protected static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 0;
     final int captureActivityResult = 100;
     final int libraryActivityResult = 200;
     final int analyseActivityResult = 300;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button captureButton;
     Button libraryButton;
     Button analyseButton;
+    Button websiteButton;
 
     ImageView photoView;
 
@@ -94,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startLibraryActivity();
         }else if(view == findViewById(R.id.analyseButton)){
             startAnalyseActivity();
+        }else if(view == findViewById(R.id.websiteButton)){
+            startWebsiteActivity();
         }
     }
 
@@ -107,16 +111,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     break;
 
                     case libraryActivityResult :
-                        processPhotoLibrary(intent);
+                        //processPhotoLibrary(intent);
 
-                        Log.i(TAG,intent.toString());
-                    break;
+                        //Log.i(TAG,intent.toString());
 
-                    case analyseActivityResult :
                         Uri photoUri = intent.getData();
                         photoView.setImageURI(photoUri);
 
                         Log.i(TAG,photoUri.toString());
+                    break;
+
+                    case analyseActivityResult :
+
                     break;
                 }
             break;
@@ -174,12 +180,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     protected void startAnalyseActivity(){
-        Intent intent = new Intent();
 
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
+        setContentView(R.layout.analyse_layout);
 
-        startActivityForResult(intent,analyseActivityResult);
+        websiteButton = (Button) findViewById(R.id.websiteButton);
+        websiteButton.setOnClickListener(this);
+    }
+
+    protected void startWebsiteActivity(){
+
+
+
+        //lance internet
+        Uri uri = Uri.parse("http://www.google.com/#q=fish");
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+
+
+        startActivity(intent);
     }
 
     protected String getRealPath(Context context, Uri uri) {
@@ -217,15 +235,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // Create an image file name
     private File createImageFile() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        /*String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "IMG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
         File image = File.createTempFile(imageFileName,".jpg",storageDir);
 
+        File test = new File(Environment.getExternalStorageDirectory(),"fname_" +
+                String.valueOf(System.currentTimeMillis()) + ".jpg");
+
         // Save a file : path for use with ACTION_VIEW intents
         photoTakenPath = image.getAbsolutePath();
-        photoTakenUri = Uri.fromFile(image);
+        photoTakenUri = Uri.fromFile(test);*/
+
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"fname_" +
+                String.valueOf(System.currentTimeMillis()) + ".jpg"));
+        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 
         return image;
     }
