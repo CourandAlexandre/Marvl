@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // Create an image file name
     private File createImageFile() throws IOException {
-        /*String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "IMG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
@@ -246,13 +246,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Save a file : path for use with ACTION_VIEW intents
         photoTakenPath = image.getAbsolutePath();
-        photoTakenUri = Uri.fromFile(test);*/
+        photoTakenUri = Uri.fromFile(test);
 
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        imageUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(),"fname_" +
-                String.valueOf(System.currentTimeMillis()) + ".jpg"));
+        /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File file = new File(Environment.getExternalStorageDirectory(),"fname_" +
+                String.valueOf(System.currentTimeMillis()) + ".jpg")
+        Uri imageUri = Uri.fromFile(file);
         intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, imageUri);
-        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);*/
 
         return image;
     }

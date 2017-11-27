@@ -3,7 +3,8 @@ package com.marvl.imt_lille_douai.marvl.comparison.tools;
 import com.marvl.imt_lille_douai.marvl.comparison.image.ComparedImage;
 
 import static org.bytedeco.javacpp.opencv_highgui.WINDOW_AUTOSIZE;
-import static org.bytedeco.javacpp.opencv_highgui.imread;
+//import static org.bytedeco.javacpp.opencv_highgui.imread;
+import static org.bytedeco.javacpp.opencv_imgcodecs.imread;
 import static org.bytedeco.javacpp.opencv_highgui.imshow;
 import static org.bytedeco.javacpp.opencv_highgui.namedWindow;
 import static org.bytedeco.javacpp.opencv_highgui.waitKey;
@@ -17,6 +18,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.bytedeco.javacpp.opencv_core.Mat;
+import org.bytedeco.javacpp.opencv_imgcodecs;
 
 public class GlobalTools {
 
