@@ -241,19 +241,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         File image = File.createTempFile(imageFileName,".jpg",storageDir);
 
-        File test = new File(Environment.getExternalStorageDirectory(),"fname_" +
-                String.valueOf(System.currentTimeMillis()) + ".jpg");
-
         // Save a file : path for use with ACTION_VIEW intents
         photoTakenPath = image.getAbsolutePath();
-        photoTakenUri = Uri.fromFile(test);
+        photoTakenUri = Uri.fromFile(image);
 
-        /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File file = new File(Environment.getExternalStorageDirectory(),"fname_" +
-                String.valueOf(System.currentTimeMillis()) + ".jpg")
-        Uri imageUri = Uri.fromFile(file);
-        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, imageUri);
-        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);*/
+        //folder stuff
+        /*File imagesFolder = new File(Environment.getExternalStorageDirectory(), "MyImages");
+        imagesFolder.mkdirs();
+
+        File image = new File(Environment.getExternalStorageDirectory(),"fname_" +
+                String.valueOf(System.currentTimeMillis()) + ".jpg");
+        Uri uriSavedImage = Uri.fromFile(image);*/
 
         return image;
     }
