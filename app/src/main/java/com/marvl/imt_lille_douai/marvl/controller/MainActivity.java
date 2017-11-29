@@ -2,6 +2,9 @@ package com.marvl.imt_lille_douai.marvl.controller;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -9,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -24,11 +28,14 @@ import android.widget.ImageView;
 
 import com.marvl.imt_lille_douai.marvl.BuildConfig;
 import com.marvl.imt_lille_douai.marvl.R;
+import com.marvl.imt_lille_douai.marvl.comparison.tools.GlobalVariables;
+import com.marvl.imt_lille_douai.marvl.comparison.tools.SimilitudeTools;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -108,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switch (requestCode){
                     case captureActivityResult :
                         photoView.setImageURI(photoTakenUri);
+
                     break;
 
                     case libraryActivityResult :
@@ -181,6 +189,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     protected void startAnalyseActivity(){
 
+        String pathToBestComparisonImage = SimilitudeTools.getMostSimilitudeImageComparedToDataBank(photoTakenPath, GlobalVariables.ImageBankPath)
+
         setContentView(R.layout.analyse_layout);
 
         websiteButton = (Button) findViewById(R.id.websiteButton);
@@ -245,6 +255,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         photoTakenPath = image.getAbsolutePath();
         photoTakenUri = Uri.fromFile(image);
 
+        //galleryAddPic(image);
+
         //folder stuff
         /*File imagesFolder = new File(Environment.getExternalStorageDirectory(), "MyImages");
         imagesFolder.mkdirs();
@@ -256,14 +268,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return image;
     }
 
-    // Add a photo to a gallery
-    private void galleryAddPic(){
+    private void galleryAddPic(File f) {
+        Log.i(TAG,"TRUUUUC : " + f.getAbsolutePath());
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File file = new File(photoTakenPath);
-        Uri contentUri = Uri.fromFile(file);
-
-        mediaScanIntent.setData(contentUri);
-
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(photoTakenUri);
         this.sendBroadcast(mediaScanIntent);
     }
 }
