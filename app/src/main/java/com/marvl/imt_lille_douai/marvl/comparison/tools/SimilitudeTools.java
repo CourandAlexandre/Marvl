@@ -40,7 +40,7 @@ public class SimilitudeTools {
         if(nbOfImgToReturn > imgValueMap.size()) {
             return null;
         }else {
-            ArrayList<ComparedImage> similitudeArray = GlobalTools.convertHashMapToArrayListOfComparedImage(imgValueMap);
+            ArrayList<ComparedImage> similitudeArray = GlobalTools.convertHashMapToArrayListOfComparedImage(imgValueMap,pathToDataBank);
             ArrayList<ComparedImage> sortedArray = new ArrayList<>();
 
             for(int i=0; i<nbOfImgToReturn; i++) {

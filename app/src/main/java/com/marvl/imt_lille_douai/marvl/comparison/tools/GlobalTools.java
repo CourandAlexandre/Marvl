@@ -56,7 +56,7 @@ public class GlobalTools {
         waitKey(0);	// Wait for a keys in the windows
     }
 
-    public static ArrayList<ComparedImage> convertHashMapToArrayListOfComparedImage(HashMap<String, Float> imgValueMap) {
+    public static ArrayList<ComparedImage> convertHashMapToArrayListOfComparedImage(HashMap<String, Float> imgValueMap, String pathToDataBank) {
         ArrayList<ComparedImage> comparedImgArray = new ArrayList<>();
 
         Set<String> imgSet = imgValueMap.keySet();
@@ -65,13 +65,13 @@ public class GlobalTools {
         String imgName = (String) i.next();
         Float imgDistance = (Float) imgValueMap.get(imgName);
 
-        comparedImgArray.add(new ComparedImage(imgName, imgDistance));
+        comparedImgArray.add(new ComparedImage(imgName, imgDistance,pathToDataBank));
 
         while(i.hasNext()) {
             imgName = (String) i.next();
             imgDistance = (Float) imgValueMap.get(imgName);
 
-            comparedImgArray.add(new ComparedImage(imgName, imgDistance));
+            comparedImgArray.add(new ComparedImage(imgName, imgDistance,pathToDataBank));
         }
 
         return comparedImgArray;
