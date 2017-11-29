@@ -61,15 +61,15 @@ public class DisplayTools {
         matcher.close();
     }
 
-    public static void displayBestImageInDataBankComparedTo(String imgPath, String pathToDataBank) {
+    /*public static void displayBestImageInDataBankComparedTo(String imgPath, String pathToDataBank) {
         System.out.println("Best image : ");
 
         // Calculate and display closest image compared to Coca_1
         String bestComparedImg = SimilitudeTools.getMostSimilitudeImageComparedToDataBank(imgPath, pathToDataBank);
         displayComparisonBetweenTwoImage(imgPath, bestComparedImg);
-    }
+    }*/
 
-    public static void displayXNbOfBestImageInDataBankComparedTo(String imgPath,Integer nbOfImage, String pathToDataBank) {
+    /*public static void displayXNbOfBestImageInDataBankComparedTo(String imgPath,Integer nbOfImage, String pathToDataBank) {
         System.out.println("Top "+nbOfImage+" image :");
 
         // Calculate and display 5 closest image compared to Coca_1
@@ -81,9 +81,9 @@ public class DisplayTools {
         }
 
         displayBestClassInArrayOfBestComparedImage(best5ComparedImg);
-    }
+    }*/
 
-    public static void displayBestClassInArrayOfBestComparedImage(ArrayList<ComparedImage> comparedImageArray) {
+    /*public static void displayBestClassInArrayOfBestComparedImage(ArrayList<ComparedImage> comparedImageArray) {
         // Find best class
         HashMap<String, Integer> bestClassMap = SimilitudeTools.getMostSimilitudeClassContainedInMostSimilitudeArray(comparedImageArray);
         Iterator<String> it = bestClassMap.keySet().iterator();
@@ -91,5 +91,5 @@ public class DisplayTools {
         Integer bestCpt = (Integer) bestClassMap.get(bestClass);
 
         System.out.println("The best class out of 5 top image is : "+bestClass+" with "+bestCpt+" hit");
-    }
+    }*/
 }

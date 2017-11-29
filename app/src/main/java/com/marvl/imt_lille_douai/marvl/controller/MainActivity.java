@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,7 +35,9 @@ import com.marvl.imt_lille_douai.marvl.comparison.tools.SimilitudeTools;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -189,13 +192,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     protected void startAnalyseActivity(){
 
-        String path = getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath().substring(0,(int) getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath().length()-15) + "/app/src/main/res/drawable/TestImage/";
+        // trop trop trop trop bien !!! la ou il y a les photos !!!! :D :D :D
+        // getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        //String path = getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath().substring(0,(int) getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath().length()-15) + "/app/src/main/res/ImageBank/TestImage/";
 
-        Log.i(TAG,"truuuuuuc : " + getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath().substring(0,(int) getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath().length()-15) + "/app/src/main/res/drawable/TestImage/");
+        //Log.i(TAG,"truuuuuuc : " + getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath().substring(0,(int) getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath().length()-15) + "/app/src/main/res/ImageBank/TestImage/");
 
-        String pathToBestComparisonImage = SimilitudeTools.getMostSimilitudeImageComparedToDataBank(photoTakenPath, path);
+        //String pathToBestComparisonImage = SimilitudeTools.getMostSimilitudeImageComparedToDataBank(photoTakenPath, path);
 
-        Log.i("BestImgPath :",pathToBestComparisonImage);
+        //Log.i("BestImgPath :",ToCache(this,"ImageBank/TestImage/Coca_12.jpg","Coca_12.jpg").getAbsolutePath());
+        File[] dataBank = null;
+
+
+        try {
+            String[] listURl = this.getAssets().list("ImageBank/TestImage"); //recup list image
+
+            String[] urInAndroid = new String[listURl.length];; //recup list image
+
+            dataBank = new File[listURl.length];
+
+            for(int i = 0;i<listURl.length;i++){
+                Log.i("ahah : ", listURl[i]);
+                //Log.i("truuuuc : ", ToCache(this,"ImageBank/TestImage/" + listURl[i],listURl[i]).getAbsolutePath());
+
+                urInAndroid[i] = ToCache(this,"ImageBank/TestImage/" + listURl[i],listURl[i]).getAbsolutePath();
+                //dataBank[i] = new File("ImageBank/TestImage/" + listURl[i]);//listURl[i]
+                dataBank[i] = new File(ToCache(this,"ImageBank/TestImage/" + listURl[i],listURl[i]).getAbsolutePath());//listURl[i]
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for(int i = 0;i<dataBank.length;i++){
+            Log.i("testtest : ", dataBank[i].getAbsolutePath());
+        }
+
+        String bestJesaispasquoi = SimilitudeTools.getMostSimilitudeImageComparedToDataBank(photoTakenPath,ToCache(this,"ImageBank/TestImage/Coca_12.jpg","Coca_12.jpg").getAbsolutePath().substring(0,ToCache(this,"ImageBank/TestImage/Coca_12.jpg","Coca_12.jpg").getAbsolutePath().length()-11),dataBank);
+        //ToCache(this,"ImageBank/TestImage/Coca_12.jpg","Coca_12.jpg");
+
+        //Log.i(TAG,"truuuuuuc : " + bestJesaispasquoi);
+
 
         setContentView(R.layout.analyse_layout);
 
@@ -280,5 +316,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(photoTakenUri);
         this.sendBroadcast(mediaScanIntent);
+    }
+
+    public static File ToCache(Context context, String Path, String fileName) {
+        InputStream input;
+        FileOutputStream output;
+        byte[] buffer;
+        String filePath = context.getCacheDir() + "/" + fileName;
+        File file = new File(filePath);
+        AssetManager assetManager = context.getAssets();
+
+        try {
+            input = assetManager.open(Path);
+            buffer = new byte[input.available()];
+            input.read(buffer);
+            input.close();
+
+            output = new FileOutputStream(filePath);
+            output.write(buffer);
+            output.close();
+            return file;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

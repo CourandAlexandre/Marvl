@@ -1,6 +1,8 @@
 package com.marvl.imt_lille_douai.marvl.comparison.tools;
 
 
+import android.util.Log;
+
 import com.marvl.imt_lille_douai.marvl.comparison.image.ComparedImage;
 
 import java.io.File;
@@ -11,8 +13,8 @@ import java.util.Set;
 
 public class SimilitudeTools {
 
-    public static String getMostSimilitudeImageComparedToDataBank(String pathToImg, String pathToDataBank) {
-        HashMap<String, Float> imgValueMap = generateMapSimilitudeOfImageComparedToDataBank(pathToImg, pathToDataBank);
+    public static String getMostSimilitudeImageComparedToDataBank(String pathToImg, String pathToDataBank,File[] dataBankFiles) {
+        HashMap<String, Float> imgValueMap = generateMapSimilitudeOfImageComparedToDataBank(pathToImg, pathToDataBank,dataBankFiles);
         Set<String> imgSet = imgValueMap.keySet();
         Iterator<String> i = imgSet.iterator();
 
@@ -34,8 +36,8 @@ public class SimilitudeTools {
         return bestImg;
     }
 
-    public static ArrayList<ComparedImage> getOrderedNbOfMostSimilitudeComparedToDataBank(String pathToImg, String pathToDataBank, Integer nbOfImgToReturn){
-        HashMap<String, Float> imgValueMap = generateMapSimilitudeOfImageComparedToDataBank(pathToImg, pathToDataBank);
+    public static ArrayList<ComparedImage> getOrderedNbOfMostSimilitudeComparedToDataBank(String pathToImg, String pathToDataBank, Integer nbOfImgToReturn, File[] dataBankFiles){
+        HashMap<String, Float> imgValueMap = generateMapSimilitudeOfImageComparedToDataBank(pathToImg, pathToDataBank, dataBankFiles);
 
         if(nbOfImgToReturn > imgValueMap.size()) {
             return null;
@@ -71,13 +73,15 @@ public class SimilitudeTools {
         return bestIdx;
     }
 
-    public static HashMap<String, Float> generateMapSimilitudeOfImageComparedToDataBank(String pathToImg, String pathToDataBank) {
+    public static HashMap<String, Float> generateMapSimilitudeOfImageComparedToDataBank(String pathToImg, String pathToDataBank, File[] dataBankFile) {
         HashMap<String, Float> imgValueMap = new HashMap<>();
+
 
         File dataBank = new File(pathToDataBank);
         File[] dataBankFiles = dataBank.listFiles();
 
         for(File file : dataBankFiles) {
+            Log.i("aaaaaaaaaa : ", file.getAbsolutePath());
             String dataBankFileToCompare = pathToDataBank + file.getName();
 
             imgValueMap.put(dataBankFileToCompare, MatchingTools.getBestMatchesAvgBetweenTwoImage(pathToImg, dataBankFileToCompare));
