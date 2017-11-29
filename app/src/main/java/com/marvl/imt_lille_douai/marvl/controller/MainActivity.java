@@ -189,7 +189,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     protected void startAnalyseActivity(){
 
-        String pathToBestComparisonImage = SimilitudeTools.getMostSimilitudeImageComparedToDataBank(photoTakenPath, GlobalVariables.ImageBankPath)
+        String pathToBestComparisonImage = SimilitudeTools.getMostSimilitudeImageComparedToDataBank(photoTakenPath, "PathToDataBank");
+
+        Log.i("BestImgPath :",pathToBestComparisonImage);
 
         setContentView(R.layout.analyse_layout);
 
