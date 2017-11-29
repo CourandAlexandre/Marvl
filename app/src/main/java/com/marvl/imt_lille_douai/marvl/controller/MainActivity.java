@@ -189,7 +189,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     protected void startAnalyseActivity(){
 
-        String pathToBestComparisonImage = SimilitudeTools.getMostSimilitudeImageComparedToDataBank(photoTakenPath, "PathToDataBank");
+        String path = getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath().substring(0,(int) getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath().length()-15) + "/app/src/main/res/drawable/TestImage/";
+
+        Log.i(TAG,"truuuuuuc : " + getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath().substring(0,(int) getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath().length()-15) + "/app/src/main/res/drawable/TestImage/");
+
+        String pathToBestComparisonImage = SimilitudeTools.getMostSimilitudeImageComparedToDataBank(photoTakenPath, path);
 
         Log.i("BestImgPath :",pathToBestComparisonImage);
 
