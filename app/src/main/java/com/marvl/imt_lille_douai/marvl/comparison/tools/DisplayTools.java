@@ -61,19 +61,19 @@ public class DisplayTools {
         matcher.close();
     }
 
-    public static void displayBestImageInDataBankComparedTo(String imgPath) {
+    public static void displayBestImageInDataBankComparedTo(String imgPath, String pathToDataBank) {
         System.out.println("Best image : ");
 
         // Calculate and display closest image compared to Coca_1
-        String bestComparedImg = SimilitudeTools.getMostSimilitudeImageComparedToDataBank(imgPath, GlobalVariables.ImageBankPath);
+        String bestComparedImg = SimilitudeTools.getMostSimilitudeImageComparedToDataBank(imgPath, pathToDataBank);
         displayComparisonBetweenTwoImage(imgPath, bestComparedImg);
     }
 
-    public static void displayXNbOfBestImageInDataBankComparedTo(String imgPath,Integer nbOfImage) {
+    public static void displayXNbOfBestImageInDataBankComparedTo(String imgPath,Integer nbOfImage, String pathToDataBank) {
         System.out.println("Top "+nbOfImage+" image :");
 
         // Calculate and display 5 closest image compared to Coca_1
-        ArrayList<ComparedImage> best5ComparedImg = SimilitudeTools.getOrderedNbOfMostSimilitudeComparedToDataBank(imgPath, GlobalVariables.ImageBankPath, nbOfImage);
+        ArrayList<ComparedImage> best5ComparedImg = SimilitudeTools.getOrderedNbOfMostSimilitudeComparedToDataBank(imgPath, pathToDataBank, nbOfImage);
 
         for(int i=0; i < best5ComparedImg.size(); i++) {
             System.out.println("N°"+(i+1)+" :"+best5ComparedImg.get(i).getImageName() + " | Distance = "+best5ComparedImg.get(i).getImageDistance());

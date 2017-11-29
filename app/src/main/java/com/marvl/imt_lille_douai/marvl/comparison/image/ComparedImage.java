@@ -8,11 +8,11 @@ public class ComparedImage {
     private Float imageDistance;
     private String imageClass;
 
-    public ComparedImage(String imageName, Float imageDistance) {
+    public ComparedImage(String imageName, Float imageDistance, String pathToDataBank) {
         this.imageName = imageName;
         this.imageDistance = imageDistance;
 
-        String clearImgClass = imageName.replaceAll(GlobalVariables.ImageBankPath, "");
+        String clearImgClass = imageName.replaceAll(pathToDataBank, "");
         this.imageClass = clearImgClass.substring(0,clearImgClass.indexOf("_"));
     }
 
