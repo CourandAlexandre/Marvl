@@ -123,13 +123,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     case libraryActivityResult :
                         //processPhotoLibrary(intent);
-
-                        //Log.i(TAG,intent.toString());
-
                         Uri photoUri = intent.getData();
                         photoView.setImageURI(photoUri);
 
-                        Log.i(TAG,photoUri.toString());
                     break;
 
                     case analyseActivityResult :
@@ -148,8 +144,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Bitmap photoBitmap = decodeFile(pathToFile); // err -> Maybe on path
 
         photoView.setImageBitmap(photoBitmap);
-
-        Log.i(TAG,pathToPhoto);
     }
 
     protected void startCaptureActivity(){
@@ -167,14 +161,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // Continue only if the File was successfully created
             if(photoFile != null){
                 //Uri photoUri = FileProvider.getUriForFile(this,SHARED_PROVIDER_AUTHORITY,photoFile);
-
                 Uri photoUri = FileProvider.getUriForFile(this.getApplicationContext(), "com.marvl.imt_lille_douai.marvl.fileprovider", photoFile);
 
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-
-
 
                 startActivityForResult(intent, captureActivityResult);
             }
@@ -191,18 +181,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     protected void startAnalyseActivity(){
-
         // trop trop trop trop bien !!! la ou il y a les photos !!!! :D :D :D
         // getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         //String path = getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath().substring(0,(int) getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath().length()-15) + "/app/src/main/res/ImageBank/TestImage/";
 
         //Log.i(TAG,"truuuuuuc : " + getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath().substring(0,(int) getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath().length()-15) + "/app/src/main/res/ImageBank/TestImage/");
-
         //String pathToBestComparisonImage = SimilitudeTools.getMostSimilitudeImageComparedToDataBank(photoTakenPath, path);
-
         //Log.i("BestImgPath :",ToCache(this,"ImageBank/TestImage/Coca_12.jpg","Coca_12.jpg").getAbsolutePath());
-        File[] dataBank = null;
 
+        Log.i("WhereAmI","startAnalyse");
+
+        File[] dataBank = null;
 
         try {
             String[] listURl = this.getAssets().list("ImageBank/TestImage"); //recup list image
@@ -216,22 +205,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //Log.i("truuuuc : ", ToCache(this,"ImageBank/TestImage/" + listURl[i],listURl[i]).getAbsolutePath());
 
                 urInAndroid[i] = ToCache(this,"ImageBank/TestImage/" + listURl[i],listURl[i]).getAbsolutePath();
+                Log.i("ahah","Caching");
                 //dataBank[i] = new File("ImageBank/TestImage/" + listURl[i]);//listURl[i]
                 dataBank[i] = new File(ToCache(this,"ImageBank/TestImage/" + listURl[i],listURl[i]).getAbsolutePath());//listURl[i]
+                Log.i("ahah", "dataBankFilling");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        for(int i = 0;i<dataBank.length;i++){
+        /*for(int i = 0;i<dataBank.length;i++){
             Log.i("testtest : ", dataBank[i].getAbsolutePath());
-        }
+        }*/
 
-        String bestJesaispasquoi = SimilitudeTools.getMostSimilitudeImageComparedToDataBank(photoTakenPath,ToCache(this,"ImageBank/TestImage/Coca_12.jpg","Coca_12.jpg").getAbsolutePath().substring(0,ToCache(this,"ImageBank/TestImage/Coca_12.jpg","Coca_12.jpg").getAbsolutePath().length()-11),dataBank);
+        //String bestSimilitudePath = SimilitudeTools.getMostSimilitudeImageComparedToDataBank(photoTakenPath,ToCache(this,"ImageBank/TestImage/Coca_12.jpg","Coca_12.jpg").getAbsolutePath().substring(0,ToCache(this,"ImageBank/TestImage/Coca_12.jpg","Coca_12.jpg").getAbsolutePath().length()-11),dataBank);
         //ToCache(this,"ImageBank/TestImage/Coca_12.jpg","Coca_12.jpg");
 
-        //Log.i(TAG,"truuuuuuc : " + bestJesaispasquoi);
+        Log.i("ahah","StartJavaCv");
 
+        String bestSimilitudePath= SimilitudeTools.getMostSimilitudeImageComparedToDataBank(photoTakenPath,dataBank);
+
+        Log.i("ahah",bestSimilitudePath);
 
         setContentView(R.layout.analyse_layout);
 
@@ -240,15 +234,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     protected void startWebsiteActivity(){
-
-
-
         //lance internet
         Uri uri = Uri.parse("http://www.google.com/#q=fish");
-
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-
-
         startActivity(intent);
     }
 
@@ -311,7 +299,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void galleryAddPic(File f) {
-        Log.i(TAG,"TRUUUUC : " + f.getAbsolutePath());
+        //Log.i(TAG,"TRUUUUC : " + f.getAbsolutePath());
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         Uri contentUri = Uri.fromFile(f);
         mediaScanIntent.setData(photoTakenUri);

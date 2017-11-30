@@ -1,5 +1,7 @@
 package com.marvl.imt_lille_douai.marvl.comparison.tools;
 
+import android.util.Log;
+
 import static org.bytedeco.javacpp.opencv_features2d.drawMatches;
 import static org.bytedeco.javacpp.opencv_core.NORM_L2;
 
@@ -20,6 +22,8 @@ import java.util.Arrays;
 public class MatchingTools {
 
     public static Float getBestMatchesAvgBetweenTwoImage(String pathToImg1, String pathToImg2) {
+        Log.i("ahah","InGetBestMatchesAvgBetweenTwoImage");
+
         Mat[] images = new Mat[2];
         KeyPointVector keyPoints1 = new KeyPointVector();
         KeyPointVector keyPoints2 = new KeyPointVector();
@@ -41,6 +45,10 @@ public class MatchingTools {
         sift.detect(images[0], keyPoints1);
         sift.detect(images[1], keyPoints2);
 
+        Log.i("ahah", String.valueOf(keyPoints1.capacity()));
+        Log.i("ahah", String.valueOf(keyPoints1.size()));
+        Log.i("ahah", keyPoints1.toString());
+
         Mat descriptors1 = new Mat();
         Mat descriptors2 = new Mat();
 
@@ -56,6 +64,8 @@ public class MatchingTools {
     }
 
     public static DMatchVector selectBestMatcher(DMatchVector matches, int numberToSelect) {
+        Log.i("ahah","InSelectBestMatcher");
+
         DMatch[] sorted = DMatchVectorToArray(matches);
 
         Arrays.sort(sorted, (a, b) -> {
@@ -82,6 +92,8 @@ public class MatchingTools {
     }
 
     public static Float getBestMatchesAvg(DMatchVector bestMatches, Integer nbOfBestMatch) {
+        Log.i("ahah","InGetBestMatchesAvg");
+
         float avg = 0;
 
         for(int i=0; i<bestMatches.size(); i++) {

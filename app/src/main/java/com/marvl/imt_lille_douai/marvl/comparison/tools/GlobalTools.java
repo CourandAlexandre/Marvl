@@ -22,17 +22,6 @@ import org.bytedeco.javacpp.opencv_imgcodecs;
 
 public class GlobalTools {
 
-    public static Mat loadImgLena() {
-        String	imgName	=	"lena.jpg";
-        Mat	image	=	imread(imgName);
-
-        if	(image.empty())	{
-            throw	new	RuntimeException("cannot	find	img	"	+	imgName	+	"	in	classpath");
-        }
-
-        return image;
-    }
-
     public static Mat loadImg(String imageName) {
         Mat	image	=	imread(imageName);
 
